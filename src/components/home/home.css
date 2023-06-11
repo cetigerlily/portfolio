@@ -1,0 +1,10 @@
+.background {
+    height: 100vh;
+    background-color: '#FFF9E7';
+    display: flex;
+    flex-direction: row;
+}
+
+span {
+    background-color: #FFB8D1;
+}
