@@ -1,25 +1,28 @@
 import React from 'react'
 import './home.css';
-
-import AboutMe from '../aboutme/AboutMe';
-import Experience from '../experience/Experience';
-import Projects from '../projects/Projects';
+import AboutMePanel from '../panels/AboutMePanel';
+import ExperiencePanel from '../panels/ExperiencePanel';
+import ProjectsPanel from '../panels/ProjectsPanel';
 
 function Home() {
   return (
-    <div className="background">
-      <div>
-        <p>Hi there!</p>
-        <p>
-          I’m <span>Celeste</span>, an aspiring software engineer with a goal to help the
-          world.
-        </p>
-      </div>
-
-      <AboutMe />
-      <Experience />
-      <Projects />
+    <div className='homeContainer'>
+        <div className='introductionContainer'>
+          <h1>Hi there!</h1>
+          <p>
+            I’m <span className='highlight'>Celeste</span>, an aspiring software engineer with a goal to help the
+            world.
+          </p>
+        </div>
+        
+        <div className='panelContainer'>
+          <AboutMePanel />
+          <ExperiencePanel />
+          <ProjectsPanel />
+        </div>
+        
     </div>
+    
   );
 }
 
