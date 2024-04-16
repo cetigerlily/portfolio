@@ -1,35 +1,7 @@
 import Head from "next/head";
 import MenuTab from "../components/MenuTab";
-import About from "../pages/about";
-import { useEffect, useState } from "react";
-
-import styles from "../styles/index.module.css";
 
 export default function Home() {
-  // const [showAbout, setShowAbout] = useState(false);
-  // const [showProjects, setShowProjects] = useState(false);
-  // const [showContact, setShowContact] = useState(false);
-
-  let showAbout = false;
-  let showProjects = false;
-  let showContact = false;
-
-  const expandPage = (title) => {
-    if (title == "about") {
-      showAbout = !showAbout;
-    }
-
-    if (title == "projects") {
-      showProjects = !showProjects;
-      console.log(showProjects);
-    }
-
-    if (title == "contact") {
-      showContact = !showContact;
-      console.log(showContact);
-    }
-  };
-
   return (
     <>
       <Head>
