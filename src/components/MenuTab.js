@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 export default function MenuTab({ title, link, color, textColor }) {
+  // TODO: make the whole div clickable to navigate, not just the text
   return (
     <div className={`${color} h-screen content-center w-full`}>
       <Link href={`${link}`} style={{ textDecoration: "none" }}>
