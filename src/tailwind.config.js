@@ -26,6 +26,8 @@ module.exports = {
         'cocogoose-semi-italic': ['Cocogoose-Semilight-Italic', 'sans'],
         'cocogoose-ultra': ['Cocogoose-Ultralight', 'sans'], // ultralight 
         'cocogoose-ultra-italic': ['Cocogoose-Ultralight-Italic', 'sans'],
+        'xxck': ['XiaoXinChaoKu'],
+        'hoonddukbokki': ['HoonDdukbokki']
       },
     },
   },

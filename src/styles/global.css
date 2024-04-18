@@ -27,6 +27,17 @@
   src: url('../assets/fonts/Cocogoose-Pro-Ultralight-Italic-trial.ttf') format('truetype');
 }
 
+@font-face {
+  font-family: 'XiaoXinChaoKu';
+  src: url('../assets/fonts/XiaoXinChaoKu.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'HoonDdukbokki-Regular';
+  src: url('../assets/fonts/HoonDdukbokki-Regular.ttf') format('truetype');
+}
+
+
 html,
 body {
   padding: 0;
