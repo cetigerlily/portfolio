@@ -2,27 +2,47 @@ import Head from "next/head";
 import MenuTab from "../components/MenuTab";
 import { greetings } from "../assets/data/Greetings";
 import { useEffect, useState } from "react";
+import anime from "animejs";
 
 export default function Home() {
-  const [index, setIndex] = useState(0);
-  const [greetingStyling, setGreetingStyling] = useState("text-cc-black font-cocogoose text-6xl")
+  const [index, setIndex] = useState(1);
+  const [greetingStyling, setGreetingStyling] = useState(
+    "text-cc-black font-cocogoose text-6xl"
+  );
+
   useEffect(() => {
     const interval = setInterval(() => {
-      setIndex(prevIndex => (prevIndex + 1) % greetings.length);
-
-      // TODO: fix styling for chinese and korean
-      // if (index == 2) {
-      //   setGreetingStyling("text-cc-black font-xxck text-6xl")
-      // } else if (index == 4) {
-      //   setGreetingStyling("text-cc-black font-hoonddukbokki text-6xl")
-      // } else {
-      //   setGreetingStyling("text-cc-black font-cocogoose text-6xl")
-      // }
-
+      setIndex((prevIndex) => (prevIndex + 1) % greetings.length);
     }, 5000);
 
-    return () => clearInterval(interval);
+    return () => clearInterval(interval); // Clear interval on unmount or index change
   }, []);
+
+  useEffect(() => {
+    const textWrapper = document.querySelector(".greeting");
+    textWrapper.innerHTML = textWrapper.textContent.replace(
+      /([^\x00-\x80]|\w)/g,
+      "<span class='letter'>$&</span>"
+    );
+
+    anime
+      .timeline({ loop: false })
+      .add({
+        targets: ".greeting .letter",
+        opacity: [0, 1],
+        easing: "easeOutExpo",
+        duration: 1000,
+        delay: (el, i) => 50 * (i + 1), // NOTE: delay before this animation occurs
+      })
+      // TODO: make the text look like it's deleting - animate from end to start
+      .add({
+        targets: ".greeting .letter",
+        opacity: [1, 0],
+        easing: "easeOutExpo",
+        duration: 1000,
+        delay: (el, i) => 50 * (i + 1), // NOTE: delay before this animation occurs
+      });
+  }, [index]);
 
   return (
     <>
@@ -34,9 +54,13 @@ export default function Home() {
       <div className="bg-cc-beige flex justify-between h-screen w-screen">
         {/* TODO: add in custom padding to config */}
         <div className="flex flex-col justify-end gap-2.5 p-[80px] w-[76%]">
-          <div className="animated-heading">
-            {/* TODO: add in transitions between greeting changes */}
-            <p className={`${ greetingStyling }`}>{ greetings[index] } i'm celeste</p>
+          <div className="flex flex-row">
+            <p className="greeting text-cc-black font-cocogoose text-6xl inline">
+              {greetings[index]}
+            </p>
+            <p className="greeting text-cc-black font-cocogoose text-6xl">
+              ! i'm celeste
+            </p>
           </div>
           <p className="text-cc-black font-cocogoose-ultra text-base">
             lorem ipsum dolor sit amet, consectetur adipiscing elit
@@ -45,15 +69,15 @@ export default function Home() {
 
         {/* TODO: transitions between pages */}
         <div className="flex flex-row w-[24%]">
-          <MenuTab
-            title="about me"
-            link="/about"
-            color="bg-cc-pink-100"
+          <MenuTab 
+            title="about me" 
+            link="/about" 
+            color="bg-cc-pink-100" 
           />
-          <MenuTab
-            title="projects"
-            link="/projects"
-            color="bg-cc-black"
+          <MenuTab 
+            title="projects" 
+            link="/projects" 
+            color="bg-cc-black" 
           />
           <MenuTab
             title="get in touch"
