@@ -1,7 +1,6 @@
 import Head from "next/head";
 import Link from "next/link";
 import Layout from "../components/Layout";
-import styles from "../styles/Experience.module.css";
 
 export default function Experience() {
   return (

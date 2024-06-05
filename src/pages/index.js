@@ -1,92 +1,70 @@
-import Head from "next/head";
-import MenuTab from "../components/MenuTab";
-import { greetings } from "../assets/data/Greetings";
-import { useEffect, useState } from "react";
-import anime from "animejs";
+import React, { useLayoutEffect, useRef } from "react";
+import gsap from "gsap-trial/dist/gsap";
+import { ScrollTrigger } from "gsap-trial/dist/ScrollTrigger";
+import { ScrollSmoother } from "gsap-trial/dist/ScrollSmoother";
+import { useGSAP } from "@gsap/react";
 
-export default function Home() {
-  const [index, setIndex] = useState(1);
-  const [greetingStyling, setGreetingStyling] = useState(
-    "text-cc-black font-cocogoose text-6xl"
-  );
+function Home() {
+  const main = useRef();
+  const smoother = useRef();
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setIndex((prevIndex) => (prevIndex + 1) % greetings.length);
-    }, 5000);
+  const scrollTo = () => {
+    smoother.current.scrollTo(".box-c", true, "center center");
+  };
 
-    return () => clearInterval(interval); // Clear interval on unmount or index change
-  }, []);
-
-  useEffect(() => {
-    const textWrapper = document.querySelector(".greeting");
-    textWrapper.innerHTML = textWrapper.textContent.replace(
-      /([^\x00-\x80]|\w)/g,
-      "<span class='letter'>$&</span>"
-    );
-
-    anime
-      .timeline({ loop: false })
-      .add({
-        targets: ".greeting .letter",
-        opacity: [0, 1],
-        easing: "easeOutExpo",
-        duration: 1000,
-        delay: (el, i) => 50 * (i + 1), // NOTE: delay before this animation occurs
-      })
-      // TODO: make the text look like it's deleting - animate from end to start
-      .add({
-        targets: ".greeting .letter",
-        opacity: [1, 0],
-        easing: "easeOutExpo",
-        duration: 1000,
-        delay: (el, i) => 50 * (i + 1), // NOTE: delay before this animation occurs
+  useGSAP(
+    () => {
+      smoother.current = ScrollSmoother.create({
+        smooth: 2,
+        effects: true,
       });
-  }, [index]);
+      ScrollTrigger.create({
+        trigger: ".box-c",
+        pin: true,
+        start: "center center",
+        end: "+=300",
+        markers: true,
+      });
+    },
+    {
+      scope: main,
+    }
+  );
 
   return (
     <>
-      <Head>
-        <title>celeste cheah</title>
-        <link rel="icon" href="../assets/favicon.ico" />
-      </Head>
-
-      <div className="bg-cc-beige flex justify-between h-screen w-screen">
-        {/* TODO: add in custom padding to config */}
-        <div className="flex flex-col justify-end gap-2.5 p-[80px] w-[76%]">
-          <div className="flex flex-row">
-            <p className="greeting text-cc-black font-cocogoose text-6xl inline">
-              {greetings[index]}
-            </p>
-            <p className="greeting text-cc-black font-cocogoose text-6xl">
-              ! i'm celeste
-            </p>
+      <div id="smooth-wrapper" ref={main}>
+        <div id="smooth-content">
+          <header className="header">
+            <h1 className="title">GreenSock ScrollSmoother on a NextJS App</h1>
+            <button className="button" onClick={scrollTo}>
+              Jump to C
+            </button>
+          </header>
+          <div className="box box-a" data-speed="0.5">
+            a
           </div>
-          <p className="text-cc-black font-cocogoose-ultra text-base">
-            lorem ipsum dolor sit amet, consectetur adipiscing elit
-          </p>
-        </div>
-
-        {/* TODO: transitions between pages */}
-        <div className="flex flex-row w-[24%]">
-          <MenuTab 
-            title="about me" 
-            link="/about" 
-            color="bg-cc-pink-100" 
-          />
-          <MenuTab 
-            title="projects" 
-            link="/projects" 
-            color="bg-cc-black" 
-          />
-          <MenuTab
-            title="get in touch"
-            link="/contact"
-            color="bg-cc-blue-100"
-            textColor="text-cc-black"
-          />
+          <div className="box box-b" data-speed="0.8">
+            b
+          </div>
+          <div className="box box-c" data-speed="1.5">
+            C
+          </div>
+          <div className="line"></div>
         </div>
       </div>
+      <footer>
+        <a href="https://greensock.com/scrollsmoother">
+          <img
+            className="greensock-icon"
+            src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/16327/scroll-smoother-logo-light.svg"
+            width="220"
+            height="70"
+          />
+        </a>
+      </footer>
     </>
   );
 }
+
+export default Home;
